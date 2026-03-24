@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đơn hàng - Admin</title>
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-content">
+                <h1>📊 Quản lý đơn hàng</h1>
+                <div class="header-actions">
+                    <button class="refresh-btn" onclick="loadOrders()">🔄 Làm mới</button>
+                    <button class="clear-btn" onclick="clearAllOrders()">🗑️ Xóa tất cả</button>
+                    <a href="APP.html" class="back-btn">← Về trang chủ</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-icon">📦</div>
+                <div class="stat-info">
+                    <h3 id="totalOrders">0</h3>
+                    <p>Tổng đơn hàng</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-info">
+                    <h3 id="totalRevenue">0₫</h3>
+                    <p>Tổng doanh thu</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏠</div>
+                <div class="stat-info">
+                    <h3 id="homeDelivery">0</h3>
+                    <p>Giao tận nơi</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏪</div>
+                <div class="stat-info">
+                    <h3 id="pickupOrders">0</h3>
+                    <p>Nhận tại shop</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-section">
+            <input type="text" id="searchOrder" placeholder="🔍 Tìm kiếm theo tên, SĐT, địa chỉ...">
+            <select id="filterDelivery">
+                <option value="all">Tất cả hình thức</option>
+                <option value="home">Giao tận nơi</option>
+                <option value="pickup">Nhận tại shop</option>
+            </select>
+            <select id="sortOrder">
+                <option value="newest">Mới nhất</option>
+                <option value="oldest">Cũ nhất</option>
+                <option value="highest">Giá cao nhất</option>
+                <option value="lowest">Giá thấp nhất</option>
+            </select>
+        </div>
+
+        <div class="orders-section">
+            <h2>Danh sách đơn hàng</h2>
+            <div id="ordersList" class="orders-list">
+                <div class="empty-state">
+                    <div class="empty-icon">📭</div>
+                    <p>Chưa có đơn hàng nào</p>
+                    <small>Các đơn hàng sẽ hiển thị ở đây</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="order-detail-modal" id="orderDetailModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Chi tiết đơn hàng</h2>
+                    <button class="close-modal" onclick="closeOrderDetail()">✕</button>
+                </div>
+                <div class="modal-body" id="orderDetailContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>

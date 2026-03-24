@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đồ Ăn Vặt - Food Delivery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>12A SHOP Đồ Ăn Vặt</h1>
+            <div class="cart-icon">
+                <span class="cart-badge" id="cartCount">0</span>
+                🛒
+            </div>
+        </header>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Tìm kiếm món ăn...">
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">🔥 Đồ Nướng</h2>
+            <div class="food-list" id="grilledList">
+                <div class="food-item" data-id="1">
+                    <div class="food-image">
+                        <img src="./image/lap xuong.jfif" alt="Lạp Xưởng">
+                    </div>
+                    <div class="food-info">
+                        <h3>Lạp Xưởng nướng đá</h3>
+                        <div class="price-section">
+                            <span class="price">15,000₫</span>
+                            <button class="add-btn" onclick="addToCart(1)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-item" data-id="2">
+                    <div class="food-image">
+                        <img src="./image/bo nuong la lot.jfif" alt="Bò nướng">
+                    </div>
+                    <div class="food-info">
+                        <h3>Bò nướng lá lốt</h3>
+                        <div class="price-section">
+                            <span class="price">7,000₫</span>
+                            <button class="add-btn" onclick="addToCart(2)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-item" data-id="3">
+                    <div class="food-image">
+                        <img src="./image/thit xien nuong.jfif" alt="Thịt xiên">
+                    </div>
+                    <div class="food-info">
+                        <h3>Thịt xiên nướng</h3>
+                        <div class="price-section">
+                            <span class="price">6,000₫</span>
+                            <button class="add-btn" onclick="addToCart(3)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-item" data-id="4">
+                    <div class="food-image">
+                        <img src="./image/ram nuong.jfif" alt="Ram nướng">
+                    </div>
+                    <div class="food-info">
+                        <h3>Ram nướng</h3>
+                        <div class="price-section">
+                        <span class="price">4,000₫</span>
+                            <button class="add-btn" onclick="addToCart(4)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">🥤 Đồ Uống</h2>
+            <div class="food-list" id="drinksList">
+                <div class="food-item" data-id="5">
+                    <div class="food-image">
+                        <img src="./image/o long sua.jfif" alt="Ô Long">
+                    </div>
+                    <div class="food-info">
+                        <h3>Ô Long Sữa</h3>
+                        <div class="price-section">
+                            <span class="price">15,000₫</span>
+                            <button class="add-btn" onclick="addToCart(5)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-item" data-id="6">
+                    <div class="food-image">
+                        <img src="./image/hong tra sua.jfif" alt="Hồng trà">
+                    </div>
+                    <div class="food-info">
+                        <h3>Hồng trà sữa</h3>
+                        <div class="price-section">
+                            <span class="price">15,000₫</span>
+                            <button class="add-btn" onclick="addToCart(6)">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="food-item" data-id="7">
+                    <div class="food-image">
+                        <img src="/image/tra tac.jfif" alt="Trà tắc">
+                    </div>
+                    <div class="food-info">
+                        <h3>Trà tắc</h3>
+                        <div class="price-section">
+                            <span class="price">10,000₫</span>
+                            <button class="add-btn" onclick="addToCart(7)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <h2 class="category-title">🍿 Đồ Ăn Vặt</h2>
+            <div class="food-list" id="snacksList">
+                <div class="food-item" data-id="8">
+                    <div class="food-image">
+                        <img src="./image/xoai lac.jfif" alt="Mì cay">
+                    </div>
+                    <div class="food-info">
+                        <h3>Xoài lắc</h3>
+                        <div class="price-section">
+                            <span class="price">10,000₫</span>
+                            <button class="add-btn" onclick="addToCart(8)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart-modal" id="cartModal">
+            <div class="cart-content">
+                <div class="cart-header">
+                    <h2>Giỏ hàng của bạn</h2>
+                    <button class="close-btn" onclick="closeCart()">✕</button>
+                </div>
+                <div class="cart-items" id="cartItems"></div>
+                <div class="cart-footer">
+                    <div class="total">
+                        <span>Tổng cộng:</span>
+                        <span id="totalPrice">0₫</span>
+                    </div>
+                    <button class="checkout-btn">Đặt hàng</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="customer-modal" id="customerModal">
+            <div class="customer-content">
+                <div class="customer-header">
+                    <h2>📋 Thông tin đặt hàng</h2>
+                    <button class="close-btn" onclick="closeCustomerForm()">✕</button>
+                </div>
+                <form id="customerForm" class="customer-form">
+                    <div class="form-group">
+                        <label for="customerName">
+                            <span class="required">*</span> Họ và tên:
+                        </label>
+                        <input type="text" id="customerName" name="customerName" placeholder="Nhập họ và tên" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerPhone">
+                            <span class="required">*</span> Số điện thoại:
+                        </label>
+                        <input type="tel" id="customerPhone" name="customerPhone" placeholder="Nhập số điện thoại" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerAddress">
+                            <span class="required">*</span> Địa chỉ giao hàng:
+                        </label>
+                        <textarea id="customerAddress" name="customerAddress" rows="3" placeholder="Nhập địa chỉ chi tiết (số nhà, đường, phường/xã, quận/huyện)" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <span class="required">*</span> Hình thức giao hàng:
+                        </label>
+                        <div class="delivery-options">
+                            <label class="radio-option">
+                                <input type="radio" name="deliveryType" value="home" checked>
+                                <span class="radio-label">
+                                    <span class="radio-icon">🏠</span>
+                                    <span class="radio-text">
+                                        <strong>Giao hàng tận nơi</strong>
+                                        <small>Miễn phí ship trong bán kính 3km</small>
+                                    </span>
+                                </span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="deliveryType" value="pickup">
+                                <span class="radio-label">
+                                    <span class="radio-icon">🏪</span>
+                                    <span class="radio-text">
+                                        <strong>Nhận tại cửa hàng</strong>
+                                        <small>Tiết kiệm thời gian chờ đợi</small>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customerNote">Ghi chú (không bắt buộc):</label>
+                        <textarea id="customerNote" name="customerNote" rows="2" placeholder="Ghi chú thêm cho đơn hàng..."></textarea>
+                    </div>
+
+                    <div class="order-summary">
+                        <h3>Chi tiết đơn hàng</h3>
+                        <div id="orderSummary"></div>
+                        <div class="summary-total">
+                            <span>Tổng thanh toán:</span>
+                            <span id="summaryTotalPrice">0₫</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-order-btn">Xác nhận đặt hàng</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
