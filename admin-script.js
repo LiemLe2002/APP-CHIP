@@ -3,7 +3,7 @@ let orders = [];
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHiBNWVZmaBjcTFk7i9nJhkBreW7V-Qp9MdkZiH0GcmIuAy85nokmelSsz9HSKsGu9WQ/exec';
 
 async function deleteFromGoogleSheets(orderData) {
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbzHiBNWVZmaBjcTFk7i9nJhkBreW7V-Qp9MdkZiH0GcmIuAy85nokmelSsz9HSKsGu9WQ/exec') {
+    if (GOOGLE_SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
         console.warn('Google Sheets URL chưa được cấu hình');
         return { success: false };
     }
@@ -32,7 +32,7 @@ async function deleteFromGoogleSheets(orderData) {
 }
 
 async function deleteAllFromGoogleSheets() {
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbzHiBNWVZmaBjcTFk7i9nJhkBreW7V-Qp9MdkZiH0GcmIuAy85nokmelSsz9HSKsGu9WQ/exec') {
+    if (GOOGLE_SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
         console.warn('Google Sheets URL chưa được cấu hình');
         return { success: false };
     }
@@ -58,7 +58,7 @@ async function deleteAllFromGoogleSheets() {
 }
 
 async function loadOrders() {
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbzHiBNWVZmaBjcTFk7i9nJhkBreW7V-Qp9MdkZiH0GcmIuAy85nokmelSsz9HSKsGu9WQ/exec') {
+    if (GOOGLE_SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
         console.warn('Google Sheets URL chưa được cấu hình');
         const savedOrders = localStorage.getItem('foodOrders');
         orders = savedOrders ? JSON.parse(savedOrders) : [];

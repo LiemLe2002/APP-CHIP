@@ -209,7 +209,7 @@ document.getElementById('customerModal').addEventListener('click', (e) => {
 });
 
 async function sendToGoogleSheets(orderData) {
-    if (GOOGLE_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbzHiBNWVZmaBjcTFk7i9nJhkBreW7V-Qp9MdkZiH0GcmIuAy85nokmelSsz9HSKsGu9WQ/exec') {
+    if (GOOGLE_SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
         console.warn('Google Sheets URL chưa được cấu hình. Xem file GOOGLE_SHEETS_SETUP.md');
         return { success: false, message: 'Chưa cấu hình Google Sheets' };
     }
