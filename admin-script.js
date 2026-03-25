@@ -57,6 +57,33 @@ async function deleteAllFromGoogleSheets() {
     }
 }
 
+async function syncFromGoogleSheets() {
+    if (GOOGLE_SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
+        showNotification('⚠️ Chưa cấu hình Google Sheets URL');
+        return;
+    }
+    
+    try {
+        showNotification('🔄 Đang đồng bộ từ Google Sheets...');
+        
+        const response = await fetch(GOOGLE_SCRIPT_URL);
+        const result = await response.json();
+        
+        if (result.status === 'success' && result.data) {
+            orders = result.data;
+            localStorage.setItem('foodOrders', JSON.stringify(orders));
+            updateStats();
+            displayOrders();
+            showNotification(`✅ Đã đồng bộ ${orders.length} đơn hàng từ Google Sheets!`);
+        } else {
+            showNotification('❌ Lỗi: ' + (result.message || 'Không thể tải dữ liệu'));
+        }
+    } catch (error) {
+        console.error('Lỗi khi đồng bộ:', error);
+        showNotification('❌ Lỗi khi đồng bộ từ Google Sheets');
+    }
+}
+
 function loadOrders() {
     const savedOrders = localStorage.getItem('foodOrders');
     orders = savedOrders ? JSON.parse(savedOrders) : [];
