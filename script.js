@@ -1,5 +1,7 @@
 let cart = [];
 
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHiBNWVZmaBjcTFk7i9nJhkBreW7V-Qp9MdkZiH0GcmIuAy85nokmelSsz9HSKsGu9WQ/exec';
+
 const foodData = {
     1: { name: 'Lạp Xưởng nướng đá', price: 15000 },
     2: { name: 'Bò nướng lá lốt', price: 7000 },
@@ -206,7 +208,31 @@ document.getElementById('customerModal').addEventListener('click', (e) => {
     }
 });
 
-document.getElementById('customerForm').addEventListener('submit', (e) => {
+async function sendToGoogleSheets(orderData) {
+    if (GOOGLE_SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
+        console.warn('Google Sheets URL chưa được cấu hình. Xem file GOOGLE_SHEETS_SETUP.md');
+        return { success: false, message: 'Chưa cấu hình Google Sheets' };
+    }
+    
+    try {
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orderData)
+        });
+        
+        console.log('Đã gửi đơn hàng lên Google Sheets');
+        return { success: true, message: 'Đã lưu vào Google Sheets' };
+    } catch (error) {
+        console.error('Lỗi khi gửi lên Google Sheets:', error);
+        return { success: false, message: error.message };
+    }
+}
+
+document.getElementById('customerForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const formData = {
@@ -224,6 +250,8 @@ document.getElementById('customerForm').addEventListener('submit', (e) => {
     const orders = savedOrders ? JSON.parse(savedOrders) : [];
     orders.push(formData);
     localStorage.setItem('foodOrders', JSON.stringify(orders));
+    
+    await sendToGoogleSheets(formData);
     
     const deliveryText = formData.deliveryType === 'home' ? 'Giao hàng tận nơi' : 'Nhận tại cửa hàng';
     

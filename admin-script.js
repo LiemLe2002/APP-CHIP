@@ -1,5 +1,62 @@
 let orders = [];
 
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHiBNWVZmaBjcTFk7i9nJhkBreW7V-Qp9MdkZiH0GcmIuAy85nokmelSsz9HSKsGu9WQ/exec';
+
+async function deleteFromGoogleSheets(orderData) {
+    if (GOOGLE_SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
+        console.warn('Google Sheets URL chưa được cấu hình');
+        return { success: false };
+    }
+    
+    try {
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                action: 'delete',
+                timestamp: orderData.timestamp,
+                phone: orderData.phone,
+                name: orderData.name
+            })
+        });
+        
+        console.log('Đã xóa đơn hàng khỏi Google Sheets');
+        return { success: true };
+    } catch (error) {
+        console.error('Lỗi khi xóa khỏi Google Sheets:', error);
+        return { success: false };
+    }
+}
+
+async function deleteAllFromGoogleSheets() {
+    if (GOOGLE_SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
+        console.warn('Google Sheets URL chưa được cấu hình');
+        return { success: false };
+    }
+    
+    try {
+        const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                action: 'deleteAll'
+            })
+        });
+        
+        console.log('Đã xóa tất cả đơn hàng khỏi Google Sheets');
+        return { success: true };
+    } catch (error) {
+        console.error('Lỗi khi xóa tất cả khỏi Google Sheets:', error);
+        return { success: false };
+    }
+}
+
 function loadOrders() {
     const savedOrders = localStorage.getItem('foodOrders');
     orders = savedOrders ? JSON.parse(savedOrders) : [];
@@ -201,8 +258,12 @@ function closeOrderDetail() {
     document.getElementById('orderDetailModal').classList.remove('active');
 }
 
-function deleteOrder(index) {
+async function deleteOrder(index) {
     if (confirm('Bạn có chắc muốn xóa đơn hàng này?')) {
+        const orderToDelete = orders[index];
+        
+        await deleteFromGoogleSheets(orderToDelete);
+        
         orders.splice(index, 1);
         localStorage.setItem('foodOrders', JSON.stringify(orders));
         loadOrders();
@@ -210,8 +271,10 @@ function deleteOrder(index) {
     }
 }
 
-function clearAllOrders() {
+async function clearAllOrders() {
     if (confirm('Bạn có chắc muốn xóa TẤT CẢ đơn hàng? Hành động này không thể hoàn tác!')) {
+        await deleteAllFromGoogleSheets();
+        
         orders = [];
         localStorage.removeItem('foodOrders');
         loadOrders();
