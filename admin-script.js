@@ -57,20 +57,69 @@ async function deleteAllFromGoogleSheets() {
     }
 }
 
+async function syncFromGoogleSheets() {
+    if (GOOGLE_SCRIPT_URL === 'YOUR_SCRIPT_URL_HERE') {
+        console.warn('Google Sheets URL chưa được cấu hình');
+        const savedOrders = localStorage.getItem('foodOrders');
+        orders = savedOrders ? JSON.parse(savedOrders) : [];
+        updateStats();
+        displayOrders();
+        return;
+    }
+    
+    try {
+        const response = await fetch(GOOGLE_SCRIPT_URL);
+        const result = await response.json();
+        
+        if (result.status === 'success' && result.data) {
+            orders = result.data;
+            localStorage.setItem('foodOrders', JSON.stringify(orders));
+            updateStats();
+            displayOrders();
+            await checkForNewOrders();
+            console.log(`Đã tải ${orders.length} đơn hàng từ Google Sheets`);
+        } else {
+            console.error('Lỗi khi tải dữ liệu:', result.message);
+            const savedOrders = localStorage.getItem('foodOrders');
+            orders = savedOrders ? JSON.parse(savedOrders) : [];
+            updateStats();
+            displayOrders();
+        }
+    } catch (error) {
+        console.error('Lỗi khi tải từ Google Sheets:', error);
+        const savedOrders = localStorage.getItem('foodOrders');
+        orders = savedOrders ? JSON.parse(savedOrders) : [];
+        updateStats();
+        displayOrders();
+    }
+}
+
 async function loadOrders() {
     await syncFromGoogleSheets();
 }
 
-// Auto-refresh every 30 seconds
+// Auto-refresh every 10 seconds for real-time sync
 setInterval(async () => {
     console.log('Tự động làm mới dữ liệu từ Google Sheets...');
     await syncFromGoogleSheets();
-}, 30000);
+}, 10000);
+
+let previousOrderCount = 0;
 
 // Show notification when page loads
 window.addEventListener('load', () => {
     showNotification('🔄 Đang tải dữ liệu từ Google Sheets...');
 });
+
+// Check for new orders after each sync
+async function checkForNewOrders() {
+    const currentOrderCount = orders.length;
+    if (currentOrderCount > previousOrderCount && previousOrderCount > 0) {
+        const newOrdersCount = currentOrderCount - previousOrderCount;
+        showNotification(`🔔 Có ${newOrdersCount} đơn hàng mới!`);
+    }
+    previousOrderCount = currentOrderCount;
+}
 
 function updateStats() {
     const totalOrders = orders.length;
